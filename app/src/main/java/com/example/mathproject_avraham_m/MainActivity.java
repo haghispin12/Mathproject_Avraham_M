@@ -1,13 +1,18 @@
 package com.example.mathproject_avraham_m;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.security.Provider;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     private Button bIsTrue;
     private Button bSave;
     private Button bShowUsers;
+    Intent intent;
+    MainViewModel viewModelMain;
 //private int num1;
     //private int num2;
     //private int num6;
@@ -31,7 +38,15 @@ private Exercise e1;
         setContentView(R.layout.activity_main);
         e1=new Exercise();
         initViews();
+        Intent intent = getIntent();
+        String userName=intent.getStringExtra("UserKey");
+        viewModelMain =new ViewModelProvider(this).get(MainViewModel.class);
+        viewModelMain.vnum1.observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
 
+            }
+        });
     }
 MainViewModel mvc =new MainViewModel();
     protected void initViews() {
@@ -49,7 +64,7 @@ MainViewModel mvc =new MainViewModel();
         bChallange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                 //
 //                e1.generateChallange();
 //                uptadeView();
             }
