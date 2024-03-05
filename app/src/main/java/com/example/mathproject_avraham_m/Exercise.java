@@ -5,28 +5,28 @@ import android.widget.TextView;
 import java.util.Random;
 
 public class Exercise {
-    private int num4;
-    private int num3;
+    private int num1;
+    private int num2;
 
     public void generateUntilTwenty() {
         Random r = new Random();
-        num3 = r.nextInt(10);
-      num4 = r.nextInt(10) + 10;
+        num1 = r.nextInt(10);
+      num2 = r.nextInt(10) + 10;
 
     }
     public void generateMulti() {
         Random r = new Random();
-        num3 = r.nextInt(10);
-        num4= r.nextInt(10);
+        num1 = r.nextInt(10);
+        num2= r.nextInt(10);
     }
     public void generateChallange() {
         Random r = new Random();
-        num3 = r.nextInt(10);
-        num4 = r.nextInt(90) + 10;
+        num1 = r.nextInt(10);
+        num2 = r.nextInt(90) + 10;
     }
     public boolean check(String answer){
-        int  num5 = num3*num4 ;
-        String res =num5+"";
+        int  result = num1*num2 ;
+        String res =result+"";
         if(res.equals(answer))
             return true;
         else
@@ -34,19 +34,20 @@ public class Exercise {
 
     }
 
-    public int getNum3() {
-        return num3;
+    public int getNum1() {
+        return num1;
     }
 
-    public int getNum4() {
-        return num4;
+    public int getNum2() {
+        return num2;
     }
 
     public void setNum3(int num3) {
-        this.num3 = num3;
+        this.num1 = num3;
     }
 
     public void setNum4(int num4) {
-        this.num4 = num4;
+        this.num2 = num4;
     }
+
 }

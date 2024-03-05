@@ -1,5 +1,10 @@
 package com.example.mathproject_avraham_m;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
@@ -26,29 +31,50 @@ public class MainActivity extends AppCompatActivity {
     private Button bIsTrue;
     private Button bSave;
     private Button bShowUsers;
+    private Button bRate;
+
+    private ActivityResultLauncher<Intent>activityResultLauncher=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            int rate =result.getData().getIntExtra("rate", -1);
+        }});
+
     Intent intent;
+
     MainViewModel viewModelMain;
-//private int num1;
-    //private int num2;
-    //private int num6;
-private Exercise e1;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        e1=new Exercise();
+        intent =new Intent(this, RateActivity.class);
+
         initViews();
-        Intent intent = getIntent();
-        String userName=intent.getStringExtra("UserKey");
+
+        String username = intent.getStringExtra("userkey");
+        Toast.makeText(MainActivity.this,"hello " + username, Toast.LENGTH_LONG).show();
         viewModelMain =new ViewModelProvider(this).get(MainViewModel.class);
+        viewModelMain.vnum2.observe(this, new Observer<Integer>() {
+
+            @Override
+
+    public void onChanged(Integer num2) {
+        tSecondNum.setText(num2+"");
+    }
+});
         viewModelMain.vnum1.observe(this, new Observer<Integer>() {
             @Override
-            public void onChanged(Integer integer) {
-
+            public void onChanged(Integer num1) {
+tFirstNum.setText(num1+"");
             }
         });
+        viewModelMain.vUpdate(username);
     }
-MainViewModel mvc =new MainViewModel();
+
+
+
     protected void initViews() {
         bChallange = findViewById(R.id.bChallange);
         bUntilTwenty = findViewById(R.id.bUntilTwenty);
@@ -60,72 +86,51 @@ MainViewModel mvc =new MainViewModel();
         bIsTrue = findViewById(R.id.bIsTrue);
         bSave = findViewById(R.id.bSave);
         bShowUsers = findViewById(R.id.bShowUsers);
+        bRate = findViewById(R.id.bRate);
 
-        bChallange.setOnClickListener(new View.OnClickListener() {
+
+        bRate.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                 //
-//                e1.generateChallange();
-//                uptadeView();
+            public void onClick(View view) {
+activityResultLauncher.launch(intent);
             }
         });
-        bUntilTwenty.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+bChallange.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        viewModelMain.bChallange();
+    }
+});
+bMulti.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        viewModelMain.bMulti();
+    }
+});
+bUntilTwenty.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        viewModelMain.UntilTwenty();
+    }
+});
 
-                e1.generateUntilTwenty();
-                uptadeView();
-
-            }
-        });
-        bMulti.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                e1.generateMulti();
-                uptadeView();
-
-            }
-        });
         bIsTrue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (check() == true) {
+                boolean b=viewModelMain.check(tAnsower.getText().toString());
+                if (b == true) {
                     Toast.makeText(MainActivity.this, "succesful", Toast.LENGTH_LONG).show();
                 }else {
                     Toast.makeText(MainActivity.this, "error", Toast.LENGTH_SHORT).show();
-                    Toast.makeText(MainActivity.this, e1.getNum4()*e1.getNum3() + "", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, viewModelMain.num1()*viewModelMain.num2() + "", Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
-        bSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
-        bShowUsers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
     }
-    /**
-     * until twenty
-     */
 
-    public void uptadeView(){
-        tFirstNum.setText(e1.getNum3() +"");
-        tSecondNum.setText(e1.getNum4() +"");
-    }
-    public boolean check(){
-        int  num6 = e1.getNum3()*e1.getNum4() ;
-        String res =num6+"";
-        if(res.equals(tAnsower.getText().toString()))
-            return true;
-        else
-            return false;
-    }
+
+
 }

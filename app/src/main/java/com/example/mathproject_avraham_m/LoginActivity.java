@@ -12,13 +12,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText etname;
     private Button bSubmit;
-    Intent intent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        startActivity(intent);
         initview();
     }
 
@@ -28,9 +27,10 @@ public class LoginActivity extends AppCompatActivity {
         bSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent( LoginActivity.this, MainActivity.class);
+intent.putExtra("userkey", etname.getText().toString());
+startActivity(intent);
 
-
-                intent.putExtra("Userkey",etname.getText().toString());
             }
         });
     }
