@@ -6,11 +6,13 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -32,14 +34,18 @@ public class MainActivity extends AppCompatActivity {
     private Button bSave;
     private Button bShowUsers;
     private Button bRate;
-
+    private Button bback;
+    private String who;
     private ActivityResultLauncher<Intent>activityResultLauncher=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
             int rate =result.getData().getIntExtra("rate", -1);
+            viewModelMain.vUpdaterate(rate);
+
+            Toast.makeText(MainActivity.this, "rate - " + rate, Toast.LENGTH_LONG).show();
         }});
 
-    Intent intent;
+
 
     MainViewModel viewModelMain;
 
@@ -49,14 +55,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        intent =new Intent(this, RateActivity.class);
+
 
         initViews();
-
+Intent intent =getIntent();
         String username = intent.getStringExtra("userkey");
-        Toast.makeText(MainActivity.this,"hello " + username, Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this,"hello " + username , Toast.LENGTH_LONG).show();
         viewModelMain =new ViewModelProvider(this).get(MainViewModel.class);
-        viewModelMain.vnum2.observe(this, new Observer<Integer>() {
+        viewModelMain.vUpdateusername(username);
+        viewModelMain.vnum2.observe(this, new Observer<Integer>()
+        {
 
             @Override
 
@@ -70,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 tFirstNum.setText(num1+"");
             }
         });
-        viewModelMain.vUpdate(username);
+
     }
 
 
@@ -86,44 +94,73 @@ tFirstNum.setText(num1+"");
         bIsTrue = findViewById(R.id.bIsTrue);
         bSave = findViewById(R.id.bSave);
         bShowUsers = findViewById(R.id.bShowUsers);
+        bback=findViewById(R.id.bback);
         bRate = findViewById(R.id.bRate);
-
 
         bRate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-activityResultLauncher.launch(intent);
+
+                Intent intent =new Intent(MainActivity.this, RateActivity.class);
+                activityResultLauncher.launch(intent);
+            }
+        });
+
+
+        bShowUsers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
+
+                trans.add(R.id.frameLayout, new ShowAllUsers1());
+
+                trans.commit();
             }
         });
 bChallange.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
         viewModelMain.bChallange();
+        who = "challange";
     }
 });
+
 bMulti.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
         viewModelMain.bMulti();
+        who = "multi";
     }
 });
 bUntilTwenty.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
-        viewModelMain.UntilTwenty();
+        viewModelMain.bUntilTwenty();
+        who = "untiltwenty";
     }
 });
 
         bIsTrue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int score;
                 boolean b=viewModelMain.check(tAnsower.getText().toString());
+
                 if (b == true) {
+
+
                     Toast.makeText(MainActivity.this, "succesful", Toast.LENGTH_LONG).show();
-                }else {
-                    Toast.makeText(MainActivity.this, "error", Toast.LENGTH_SHORT).show();
-                    Toast.makeText(MainActivity.this, viewModelMain.num1()*viewModelMain.num2() + "", Toast.LENGTH_SHORT).show();
-                }
+                    if (who.equals("multi")) {
+                         score = viewModelMain.getuser().getscore() + 10;
+                    }else if(who.equals("untiltwenty")) {
+                         score = viewModelMain.getuser().getscore() + 15;
+                    }else{
+                               score = viewModelMain.getuser().getscore() + 20;
+
+
+                    }
+                    viewModelMain.getuser().setScore(score);
+                }else Toast.makeText(MainActivity.this, "error", Toast.LENGTH_SHORT).show();
 
             }
         });

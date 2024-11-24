@@ -4,9 +4,8 @@ public class User {
     private String username;
     private int score;
     private int rate;
-    public User(){
+    long id;
 
-    }
 
     public String getUsername() {
         return username;
@@ -16,9 +15,7 @@ public class User {
         this.username = username;
     }
 
-    public int getScore() {
-        return score;
-    }
+
 
     public void setScore(int score) {
         this.score = score;
@@ -31,4 +28,7 @@ public class User {
     public void setRate(int rate) {
         this.rate = rate;
     }
+ public int getscore(){
+     return score;
+ }
 }
