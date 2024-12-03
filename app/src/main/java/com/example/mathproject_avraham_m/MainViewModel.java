@@ -56,7 +56,7 @@ public User getuser(){
     }
 
     public void vUpdateusername(String username) {
-
+user = new User();
         user.setUsername(username);
     }
 

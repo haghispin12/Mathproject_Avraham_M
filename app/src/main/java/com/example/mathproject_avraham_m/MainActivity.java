@@ -109,12 +109,14 @@ tFirstNum.setText(num1+"");
 
         bShowUsers.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-
-                trans.add(R.id.frameLayout, new ShowAllUsers1());
-
-                trans.commit();
+                public void onClick(View view) {
+//                FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
+//
+//                trans.add(R.id.frameLayout, new ShowAllUsers1());
+//
+//                trans.commit();
+                //Intent intent = new Intent(MainActivity.this , Itemview.class);
+                //startActivity(intent);
             }
         });
 bChallange.setOnClickListener(new View.OnClickListener() {

@@ -3,25 +3,20 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
   android:id="@+id/frameLayout"
-    android:layout_height="match_parent"
-
-    >
+    android:layout_height="match_parent">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="MainActivity">
 
-
    <LinearLayout
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:orientation="vertical"
->
+       android:orientation="vertical">
        <Button
            android:id="@+id/bRate"
            android:layout_width="wrap_content"
@@ -73,65 +68,48 @@ android:layout_width="match_parent"
         android:background="#FEEB03"
         android:text=""
         android:textSize="75sp"
-        android:layout_marginBottom="10dp"
-
-
-        />
+        android:layout_marginBottom="10dp"/>
 
     <TextView
         android:layout_width="200dp"
         android:layout_height="80dp"
         android:background="#FEEB03"
         android:text="X"
-android:textAlignment="center"
+        android:textAlignment="center"
         android:textSize="50sp"
         android:layout_marginBottom="10dp"
-        android:id="@+id/tKaful"
-
-        />
+        android:id="@+id/tKaful"/>
 
     <TextView
         android:id="@+id/tSecondNum"
-
         android:layout_width="200dp"
         android:layout_height="80dp"
         android:background="#FEEB03"
         android:text=""
-        android:textSize="80sp"
-android:layout_marginBottom="10dp"
+        android:textSize="75sp"
+        android:layout_marginBottom="10dp"/>
 
-        />
+
     <EditText
         android:id="@+id/tAnsower"
-
         android:layout_width="200dp"
         android:layout_height="80dp"
         android:background="#FEEB03"
         android:text="תשובה"
         android:textAlignment="center"
         android:textSize="50sp"
-        android:layout_marginBottom="10dp"
-/>
+        android:layout_marginBottom="10dp"/>
 
-
-
-
->
-    <Button
+   <Button
         android:id="@+id/bIsTrue"
-
         android:layout_width="200dp"
         android:layout_height="80dp"
         android:layout_gravity="center"
-        android:text="בדיקה"
+        android:text="test"
         android:textSize="20sp"
-
         />
-
-
-
-</LinearLayout>
-    <LinearLayout
+    </LinearLayout>
+<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
