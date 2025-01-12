@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         }});
 
 
-
+    Uri uri;
     MainViewModel viewModelMain;
 
 
@@ -97,6 +98,7 @@ tFirstNum.setText(num1+"");
         bback=findViewById(R.id.bback);
         bRate = findViewById(R.id.bRate);
 
+
         bRate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,18 +109,21 @@ tFirstNum.setText(num1+"");
         });
 
 
+
+
         bShowUsers.setOnClickListener(new View.OnClickListener() {
             @Override
                 public void onClick(View view) {
-//                FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
+                FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
+
+                trans.add(R.id.frameLayout, new ShowAllUsers1());
 //
-//                trans.add(R.id.frameLayout, new ShowAllUsers1());
-//
-//                trans.commit();
-                //Intent intent = new Intent(MainActivity.this , Itemview.class);
+                trans.commit();
+                //Intent intent = new Intent(MainActivity.this , ShowfruitsActivity1.class);
                 //startActivity(intent);
             }
         });
+
 bChallange.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
