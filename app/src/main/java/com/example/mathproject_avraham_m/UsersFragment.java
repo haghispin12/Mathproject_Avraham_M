@@ -12,6 +12,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.provider.MediaStore;
@@ -22,9 +23,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 
-public class ShowAllUsers1 extends Fragment {
+public class UsersFragment extends Fragment {
 private EditText etuser;
 
     private Button baddpicture;
@@ -41,6 +45,7 @@ private EditText etuser;
                     if(result.getResultCode() == RESULT_OK)
                     {
                         iimageview.setImageURI(uri);
+                        viewModelMain.user.setUri(uri);
                     }
                 }
             });
@@ -71,6 +76,13 @@ private EditText etuser;
         View view= inflater.inflate(R.layout.fragment_showusers, container, false);
 
         initViews(view);
+        viewModelMain.u1.observe(getActivity(), new Observer<ArrayList<User>>() {
+            @Override
+            public void onChanged(ArrayList<User> users) {
+               int n=10;
+            }
+        });
+        viewModelMain.getArray(getActivity());
 bback.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
@@ -87,9 +99,16 @@ baddpicture.setOnClickListener(new View.OnClickListener() {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         startCamera.launch(cameraIntent);
+
     }
 });
-
+badduser.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        long g = viewModelMain.dbAddUser(getActivity());
+        Toast.makeText(getActivity() , g + "" , Toast.LENGTH_LONG).show();
+    }
+});
 
         trating.setText(viewModelMain.getrate() + "");
         etuser.setText(viewModelMain.getUser() + "");

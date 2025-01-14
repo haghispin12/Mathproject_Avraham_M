@@ -3,14 +3,11 @@ package com.example.mathproject_avraham_m;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -19,9 +16,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.security.Provider;
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     private Button bChallange;
@@ -116,7 +110,7 @@ tFirstNum.setText(num1+"");
                 public void onClick(View view) {
                 FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
 
-                trans.add(R.id.frameLayout, new ShowAllUsers1());
+                trans.add(R.id.frameLayout, new UsersFragment());
 //
                 trans.commit();
                 //Intent intent = new Intent(MainActivity.this , ShowfruitsActivity1.class);

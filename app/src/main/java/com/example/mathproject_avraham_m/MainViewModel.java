@@ -1,15 +1,22 @@
 package com.example.mathproject_avraham_m;
 
+import android.content.Context;
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import java.util.ArrayList;
 
 public class MainViewModel extends ViewModel {
     MutableLiveData<Integer> vnum1;
     MutableLiveData<Integer> vnum2;
+    MutableLiveData<ArrayList<User>> u1;
     Exercise e1;
     User user;
 
     public MainViewModel() {
+        u1 =new MutableLiveData<>(new ArrayList<>());
         vnum1 = new MutableLiveData<>();
         vnum2 = new MutableLiveData<>();
         e1 = new Exercise();
@@ -56,7 +63,7 @@ public User getuser(){
     }
 
     public void vUpdateusername(String username) {
-user = new User();
+        user = new User();
         user.setUsername(username);
     }
 
@@ -80,5 +87,16 @@ user = new User();
     public void vUpdaterate(int rate) {
 
         user.setRate(rate);
+    }
+    public long dbAddUser(Context context){
+        DBHelper db1 = new DBHelper(context);
+        Long d = db1.insert(user , context);
+        Log.d("avy1", d + "");
+        return d;
+    }
+    public void getArray(Context context){
+        DBHelper db2 = new DBHelper(context);
+      ArrayList <User> arr =  db2.selectAll();
+        u1.setValue(arr);
     }
 }
