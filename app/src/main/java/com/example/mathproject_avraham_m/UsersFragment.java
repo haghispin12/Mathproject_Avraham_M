@@ -14,6 +14,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -37,6 +39,7 @@ private EditText etuser;
     private Button bback;
     private TextView trating;
     private TextView tscore;
+    private RecyclerView rcShowUsers;
     private Uri uri;
     private ActivityResultLauncher<Intent> startCamera = registerForActivityResult
             (new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
@@ -61,7 +64,7 @@ private EditText etuser;
 
     protected void initViews(View view) {
         tscore = view.findViewById(R.id.tscore);
-
+rcShowUsers = view.findViewById(R.id.rcShowUsers);
         trating=view.findViewById(R.id.trating);
         bback = view.findViewById(R.id.bback);
         badduser=view.findViewById(R.id.badduser);
@@ -79,7 +82,21 @@ private EditText etuser;
         viewModelMain.u1.observe(getActivity(), new Observer<ArrayList<User>>() {
             @Override
             public void onChanged(ArrayList<User> users) {
-               int n=10;
+                if (users.size()>0){
+MyUsersAdapter myUsersAdapter = new MyUsersAdapter(users, new MyUsersAdapter.OnItemClickListener1() {
+    @Override
+    public void OnItemClick(User user) {
+int n=10;
+    }
+});
+                    rcShowUsers.setLayoutManager(new LinearLayoutManager(requireContext()));
+                    rcShowUsers.setAdapter(myUsersAdapter);
+                    rcShowUsers.setHasFixedSize(true);
+
+                }
+
+
+
             }
         });
         viewModelMain.getArray(getActivity());
