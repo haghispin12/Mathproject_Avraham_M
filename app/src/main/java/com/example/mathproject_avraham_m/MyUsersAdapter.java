@@ -48,15 +48,15 @@ public class MyUsersAdapter extends RecyclerView.Adapter<MyUsersAdapter.MyViewHo
         ImageView ivUserimg;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvUsername = tvUsername.findViewById(R.id.tvUsername);
-            tvScoreuser = tvScoreuser.findViewById(R.id.tvScoreuser);
-            ivUserimg = ivUserimg.findViewById(R.id.ivUserimg);
+            tvUsername = itemView.findViewById(R.id.tvUsername);
+            tvScoreuser = itemView.findViewById(R.id.tvScoreuser);
+            ivUserimg = itemView.findViewById(R.id.ivUserimg);
 
         }
         public void bind(final User user, OnItemClickListener1 listener){
-            tvScoreuser.setText(user.getscore());
+            tvScoreuser.setText(user.getscore() + "");
             tvUsername.setText(user.getUsername());
-            ivUserimg.setImageURI(user.getUri());
+            ivUserimg.setImageBitmap(user.getBitmap());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

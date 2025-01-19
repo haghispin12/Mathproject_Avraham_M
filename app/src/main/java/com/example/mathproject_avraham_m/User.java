@@ -45,7 +45,12 @@ public User(){
  public int getscore(){
      return score;
  }
- public void setId(long id){
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setId(long id){
         this.id=id;
  }
 
