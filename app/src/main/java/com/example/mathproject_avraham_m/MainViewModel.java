@@ -1,6 +1,7 @@
 package com.example.mathproject_avraham_m;
 
 import android.content.Context;
+import android.content.ContextParams;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
@@ -92,11 +93,23 @@ public User getuser(){
         DBHelper db1 = new DBHelper(context);
         Long d = db1.insert(user , context);
         Log.d("avy1", d + "");
+        db1.selectAll();
         return d;
     }
     public void getArray(Context context){
         DBHelper db2 = new DBHelper(context);
       ArrayList <User> arr =  db2.selectAll();
         u1.setValue(arr);
+    }
+    public void getUpdate(Context context, User selectedUser){
+        DBHelper db1 = new DBHelper(context);
+        db1.update(selectedUser);
+        getArray(context);
+    }
+    public void getDelete(Context context , User selectedUser){
+        DBHelper db1 = new DBHelper(context);
+        db1.deleteById(selectedUser.getId());
+        getArray(context);
+        db1.selectAll();
     }
 }

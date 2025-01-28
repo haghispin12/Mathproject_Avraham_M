@@ -2,7 +2,9 @@ package com.example.mathproject_avraham_m;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +13,8 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,6 +23,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -30,8 +37,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 
-public class UsersFragment extends Fragment {
+public class UsersFragment extends Fragment implements MenuProvider {
 private EditText etuser;
+
 
     private Button baddpicture;
     private ImageView iimageview;
@@ -40,6 +48,7 @@ private EditText etuser;
     private TextView trating;
     private TextView tscore;
     private RecyclerView rcShowUsers;
+    private User currentUser;
     private Uri uri;
     private ActivityResultLauncher<Intent> startCamera = registerForActivityResult
             (new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
@@ -53,6 +62,9 @@ private EditText etuser;
                 }
             });
     MainViewModel viewModelMain;
+    private MenuItem itemDelete;
+    private MenuItem itemEdit;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,9 +98,16 @@ rcShowUsers = view.findViewById(R.id.rcShowUsers);
 MyUsersAdapter myUsersAdapter = new MyUsersAdapter(users, new MyUsersAdapter.OnItemClickListener1() {
     @Override
     public void OnItemClick(User user) {
-int n=10;
+itemDelete.setVisible(true);
+    itemEdit.setVisible(true);
+         currentUser = user;
+        tscore.setText(currentUser.getscore() + "");
+trating.setText(currentUser.getRate() + "");
+etuser.setText(currentUser.getUsername());
+iimageview.setImageBitmap(currentUser.getBitmap());
     }
 });
+
                     rcShowUsers.setLayoutManager(new LinearLayoutManager(requireContext()));
                     rcShowUsers.setAdapter(myUsersAdapter);
                     rcShowUsers.setHasFixedSize(true);
@@ -123,6 +142,7 @@ badduser.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
         long g = viewModelMain.dbAddUser(getActivity());
+        viewModelMain.getArray(getActivity());
         Toast.makeText(getActivity() , g + "" , Toast.LENGTH_LONG).show();
     }
 });
@@ -130,7 +150,59 @@ badduser.setOnClickListener(new View.OnClickListener() {
         trating.setText(viewModelMain.getrate() + "");
         etuser.setText(viewModelMain.getUser() + "");
         tscore.setText(viewModelMain.getscore()+"");
+        requireActivity().addMenuProvider(this);
+
         return view;
+
     }
+
+    @Override
+    public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+menuInflater.inflate(R.menu.menu , menu);
+itemDelete = menu.findItem(R.id.action_delete);
+itemDelete.setVisible(false);
+itemEdit = menu.findItem(R.id.action_edit);
+itemEdit.setVisible(false);
+super.onCreateOptionsMenu(menu , menuInflater);
+    }
+
+    @Override
+    public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+        int id =menuItem.getItemId();
+        switch (id){
+            case R.id.action_delete:
+openDialog();
+return true;
+            case R.id. action_edit:
+                viewModelMain.getUpdate(getActivity(), currentUser);
+currentUser.setUsername(etuser.getText().toString());
+            return true;
+        }
+        return false;
+    }
+
+public void openDialog(){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+        alertDialog.setTitle("Delete");
+        alertDialog.setMessage("Do you want to delete?");
+        alertDialog.setIcon(R.drawable.ic_launcher_background);
+        alertDialog.setCancelable(true);
+alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+    @Override
+    public void onClick(DialogInterface dialogInterface, int i) {
+viewModelMain.getDelete(getActivity() , currentUser);
+
+dialogInterface.dismiss();
+    }
+});
+alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+    @Override
+    public void onClick(DialogInterface dialogInterface, int i) {
+dialogInterface.dismiss();
+    }
+});
+alertDialog.show();
+
+}
 
 }

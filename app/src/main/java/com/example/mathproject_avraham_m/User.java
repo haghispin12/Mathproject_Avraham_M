@@ -10,7 +10,7 @@ public class User {
     private int rate;
     private Bitmap bitmap;
     private Uri uri;
-    long id;
+    private long id;
 public User(long id , String username , int score , int rate , Bitmap bitmap){
     this.id=id;
     this.rate=rate;
@@ -37,6 +37,9 @@ public User(){
 
     public int getRate() {
         return rate;
+    }
+    public long getId(){
+    return id;
     }
 
     public void setRate(int rate) {
