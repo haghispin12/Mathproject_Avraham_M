@@ -1,4 +1,4 @@
-package com.example.mathproject_avraham_m;
+package com.example.mathproject_avraham_m.mathprog;
 
 
 import android.graphics.Bitmap;

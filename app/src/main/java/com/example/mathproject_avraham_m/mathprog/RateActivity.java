@@ -1,4 +1,4 @@
-package com.example.mathproject_avraham_m;
+package com.example.mathproject_avraham_m.mathprog;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
+
+import com.example.mathproject_avraham_m.R;
 
 public class RateActivity extends AppCompatActivity {
 private SeekBar sbSave;

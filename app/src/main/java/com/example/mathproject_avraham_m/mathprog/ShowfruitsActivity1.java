@@ -1,4 +1,4 @@
-package com.example.mathproject_avraham_m;
+package com.example.mathproject_avraham_m.mathprog;
 
 import android.os.Bundle;
 import android.widget.Toast;
@@ -8,7 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.lang.reflect.Array;
+import com.example.mathproject_avraham_m.R;
+
 import java.util.ArrayList;
 
 public class ShowfruitsActivity1 extends AppCompatActivity {

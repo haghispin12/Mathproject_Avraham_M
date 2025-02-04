@@ -1,4 +1,4 @@
-package com.example.mathproject_avraham_m;
+package com.example.mathproject_avraham_m.mathprog;
 
 public class Fruit {
     private String name;

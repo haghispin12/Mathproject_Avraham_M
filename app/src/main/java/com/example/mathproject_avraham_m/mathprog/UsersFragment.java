@@ -1,4 +1,4 @@
-package com.example.mathproject_avraham_m;
+package com.example.mathproject_avraham_m.mathprog;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -33,6 +33,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.mathproject_avraham_m.R;
 
 import java.util.ArrayList;
 

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "289661461222",
+    "project_id": "hadrach-project",
+    "storage_bucket": "hadrach-project.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:289661461222:android:2111bf7b443d4de59c1127",
+        "android_client_info": {
+          "package_name": "com.example.mathproject_avraham_m"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRZm91J02iuz9SJvToehlI6N2yITmUGLM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

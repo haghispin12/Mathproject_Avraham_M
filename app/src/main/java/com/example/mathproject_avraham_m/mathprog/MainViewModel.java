@@ -1,7 +1,6 @@
-package com.example.mathproject_avraham_m;
+package com.example.mathproject_avraham_m.mathprog;
 
 import android.content.Context;
-import android.content.ContextParams;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
