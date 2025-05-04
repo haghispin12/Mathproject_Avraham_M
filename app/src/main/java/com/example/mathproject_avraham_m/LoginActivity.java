@@ -15,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.mathproject_avraham_m.mathprog.Student;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Firebase;
@@ -44,6 +45,7 @@ private FirebaseAuth auth;
         setContentView(R.layout.activity_login2);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
+        push();
        initView();
     }
 
@@ -99,7 +101,7 @@ private FirebaseAuth auth;
             }
         });
     }
-public static void add(){
+public static void push(){
     ArrayList<Student>students =new ArrayList<>();
     FirebaseFirestore.getInstance().collection("studentes").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
         @Override
@@ -107,10 +109,32 @@ public static void add(){
 for (DocumentSnapshot documentSnapshot: queryDocumentSnapshots){
     if (documentSnapshot.exists()){
         String name = documentSnapshot.getString("name");
+boolean isLeft = Boolean.TRUE.equals(documentSnapshot.getBoolean("isLate"));
+        boolean isPresent = Boolean.TRUE.equals(documentSnapshot.getBoolean("isPresent"));
+        Student st1 = new Student(name, isLeft, isPresent);
+        students.add(st1);
+
 
     }
 }
         }
     });
 }
+//public static void add(){
+//    Student student = new Student("shlomo" , true, true);
+//    FirebaseFirestore.getInstance().collection("students").document().set(student).addOnSuccessListener(new OnSuccessListener<Void>() {
+//        @Override
+//        public void onSuccess(Void unused) {
+//            Toast.makeText(this , "add student has been success", Toast.LENGTH_SHORT).show();
+//
+//        }
+//    }).addOnFailureListener(new OnFailureListener() {
+//        @Override
+//        public void onFailure(@NonNull Exception e) {
+//            Toast.makeText(LoginActivity.this, "", Toast.LENGTH_SHORT).show();
+//        }
+//    });
+//}
+//
+
 }
