@@ -33,7 +33,7 @@ private RecyclerView rcShowFruits;
     }
 public void start(){
     ArrayList<Fruit>fruits = new ArrayList<>();
-    fruits.add(new Fruit(R.drawable.img_1 , "banana"  ));
+    //fruits.add(new Fruit(R.drawable.img_1 , "banana"  ));
     fruits.add(new Fruit(R.drawable.img_2 , "apple"  ));
     fruits.add(new Fruit(R.drawable.img_3 , "grapes"  ));
     fruits.add(new Fruit(R.drawable.img_4 , "lemon"  ));
