@@ -29,11 +29,10 @@
         <!-- android:exported="false" /> -->
         <activity
             android:name=".mathprog.RateActivity"
-            android:exported="false" >
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+            android:exported="false" />
+        <activity
+            android:name=".GuideActivity"
+            android:exported="false" />
         <activity
             android:name=".mathprog.LoginActivity"
             android:exported="true" >

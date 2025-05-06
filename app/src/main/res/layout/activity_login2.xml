@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:minWidth="200dp"
         android:hint="username"
+        android:text="avydon116@gmail.com"
         android:textAlignment="center"
         />
     <EditText
@@ -23,6 +24,7 @@
         android:layout_height="wrap_content"
         android:minWidth="200dp"
         android:hint="password"
+        android:text="12345678"
         android:textAlignment="center"
         />
     <Button

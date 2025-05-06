@@ -1,5 +1,6 @@
 package com.example.mathproject_avraham_m;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,24 +10,16 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.example.mathproject_avraham_m.mathprog.Student;
+import com.example.mathproject_avraham_m.mathprog.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Firebase;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.auth.FirebaseAuthCredentialsProvider;
 
 import java.util.ArrayList;
 
@@ -45,7 +38,7 @@ private FirebaseAuth auth;
         setContentView(R.layout.activity_login2);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
-        push();
+//        push();
        initView();
     }
 
@@ -56,12 +49,7 @@ private FirebaseAuth auth;
         bRegistration = findViewById(R.id.bRegistration);
         etname = findViewById(R.id.etname);
         etpassword = findViewById(R.id.etpassword);
-        bsubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int i=10;
-            }
-        });
+
         bRegistration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,11 +75,16 @@ private FirebaseAuth auth;
         bsubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 auth.signInWithEmailAndPassword(etname.getText().toString() , etpassword.getText().toString()).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(LoginActivity.this, "Authentication success", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(LoginActivity.this , GuideActivity.class);
+                            intent.putExtra("userkey" , etname.getText().toString());
+                            startActivity(intent);
+//                            Toast.makeText(LoginActivity.this, "Authentication success", Toast.LENGTH_SHORT).show();
                         }else {
                             Toast.makeText(LoginActivity.this, "Authentication failed", Toast.LENGTH_SHORT).show();
                         }
@@ -101,25 +94,27 @@ private FirebaseAuth auth;
             }
         });
     }
-public static void push(){
-    ArrayList<Student>students =new ArrayList<>();
-    FirebaseFirestore.getInstance().collection("studentes").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-        @Override
-        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-for (DocumentSnapshot documentSnapshot: queryDocumentSnapshots){
-    if (documentSnapshot.exists()){
-        String name = documentSnapshot.getString("name");
-boolean isLeft = Boolean.TRUE.equals(documentSnapshot.getBoolean("isLate"));
-        boolean isPresent = Boolean.TRUE.equals(documentSnapshot.getBoolean("isPresent"));
-        Student st1 = new Student(name, isLeft, isPresent);
-        students.add(st1);
-
-
-    }
-}
-        }
-    });
-}
+//public static void push(){
+//    ArrayList<Student>students =new ArrayList<>();
+//    FirebaseFirestore.getInstance().collection("studentes").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//        @Override
+//        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//for (DocumentSnapshot documentSnapshot: queryDocumentSnapshots){
+//    if (documentSnapshot.exists()){
+//        String name = documentSnapshot.getString("name");
+//        boolean isPhone = documentSnapshot.getBoolean("isPhone");
+//boolean isLeft = documentSnapshot.getBoolean("isLate");
+//        boolean isPresent = documentSnapshot.getBoolean("isPresent");
+//        Student st1 = new Student(name, isLeft, isPresent , isPhone );
+//        students.add(st1);
+//
+//
+//
+//    }
+//}
+//        }
+//    });
+//}
 //public static void add(){
 //    Student student = new Student("shlomo" , true, true);
 //    FirebaseFirestore.getInstance().collection("students").document().set(student).addOnSuccessListener(new OnSuccessListener<Void>() {
