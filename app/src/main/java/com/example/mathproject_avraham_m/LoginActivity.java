@@ -26,6 +26,7 @@ import java.util.ArrayList;
 public class LoginActivity extends AppCompatActivity {
 private EditText etname;
 private EditText etpassword;
+private String id;
 private Button bRegistration;
 private Button bsubmit;
 private FirebaseAuth auth;
@@ -94,27 +95,28 @@ private FirebaseAuth auth;
             }
         });
     }
-//public static void push(){
-//    ArrayList<Student>students =new ArrayList<>();
-//    FirebaseFirestore.getInstance().collection("studentes").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//        @Override
-//        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//for (DocumentSnapshot documentSnapshot: queryDocumentSnapshots){
-//    if (documentSnapshot.exists()){
-//        String name = documentSnapshot.getString("name");
-//        boolean isPhone = documentSnapshot.getBoolean("isPhone");
-//boolean isLeft = documentSnapshot.getBoolean("isLate");
-//        boolean isPresent = documentSnapshot.getBoolean("isPresent");
-//        Student st1 = new Student(name, isLeft, isPresent , isPhone );
-//        students.add(st1);
-//
-//
-//
-//    }
-//}
-//        }
-//    });
-//}
+public static void push(){
+    ArrayList<Student>students =new ArrayList<>();
+    FirebaseFirestore.getInstance().collection("studentes").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        @Override
+        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+for (DocumentSnapshot documentSnapshot: queryDocumentSnapshots){
+    if (documentSnapshot.exists()){
+        String name = documentSnapshot.getString("name");
+        String id = documentSnapshot.getId();
+        boolean isPhone = documentSnapshot.getBoolean("isPhone");
+boolean isLeft = documentSnapshot.getBoolean("isLate");
+        boolean isPresent = documentSnapshot.getBoolean("isPresent");
+        Student st1 = new Student(name, id , isLeft, isPresent , isPhone );
+        students.add(st1);
+
+
+
+    }
+}
+        }
+    });
+}
 //public static void add(){
 //    Student student = new Student("shlomo" , true, true);
 //    FirebaseFirestore.getInstance().collection("students").document().set(student).addOnSuccessListener(new OnSuccessListener<Void>() {

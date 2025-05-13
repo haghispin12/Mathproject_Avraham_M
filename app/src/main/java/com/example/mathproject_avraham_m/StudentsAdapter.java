@@ -33,6 +33,7 @@ public class StudentsAdapter extends RecyclerView.Adapter<StudentsAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.bind(students.get(position), listener);
+
     }
 
     @Override
@@ -57,7 +58,12 @@ return 0;
             cbisPresent = itemView.findViewById(R.id.cbisPresent);
             cbisLate = itemView.findViewById(R.id.cbisLate);
             cbisPhone = itemView.findViewById(R.id.cbisPhone);
-
+cbisPresent.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        int n=10;
+    }
+});
         }
         public void bind(final Student student, OnItemClickListener1 listener){
             tvName.setText(student.getName() + "");
@@ -72,4 +78,5 @@ return 0;
             });
         }
     }
+
 }

@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 public class GuideActivity extends AppCompatActivity{
     private RecyclerView rcShowStudents;
+    private String id;
+
     private ArrayList<Student> students;
 
     @Override
@@ -55,6 +58,7 @@ protected void initViews(){
     rcShowStudents = findViewById(R.id.rcShowStudents);
 
     }
+
 public void start( ) {
     FirebaseFirestore.getInstance().collection("students").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
 
@@ -65,11 +69,12 @@ public void start( ) {
             ArrayList<Student> students = new ArrayList<>();
             for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                 if (documentSnapshot.exists()) {
+                    String id = documentSnapshot.getId();
                     String name = documentSnapshot.getString("name");
                     boolean isPhone = documentSnapshot.getBoolean("isPhone");
                     boolean isLeft = documentSnapshot.getBoolean("isLate");
                     boolean isPresent = documentSnapshot.getBoolean("isPresent");
-                    Student st1 = new Student(name, isLeft, isPresent, isPhone);
+                    Student st1 = new Student(name, id, isLeft, isPresent, isPhone);
                     students.add(st1);
 //createList(students);
 

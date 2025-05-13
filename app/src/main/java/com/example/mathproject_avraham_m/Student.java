@@ -5,7 +5,9 @@ public class Student {
     private boolean isPresent;
     private boolean isPhone;
     private boolean isLate;
-    public Student(String name, boolean isLate , boolean isPresent , boolean isPhone){
+    private String id;
+    public Student(String id , String name, boolean isLate , boolean isPresent , boolean isPhone){
+       this.id=id;
         this.name=name;
         this.isLate=isLate;
         this.isPresent=isPresent;
@@ -38,6 +40,14 @@ public class Student {
 
     public boolean isPhone() {
         return isPhone;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setPhone(boolean phone) {
