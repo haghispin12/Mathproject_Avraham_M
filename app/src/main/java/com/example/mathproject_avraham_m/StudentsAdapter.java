@@ -17,7 +17,7 @@ public class StudentsAdapter extends RecyclerView.Adapter<StudentsAdapter.MyView
 
     private OnItemClickListener1 listener;
     public interface OnItemClickListener1 {
-        void OnItemClick(Student student);
+        void OnItemClick(Student student,int n);
     }
 
     public StudentsAdapter(ArrayList<Student>students, OnItemClickListener1 listener){
@@ -63,7 +63,7 @@ return 0;
         }
 
         public void bind(final Student student, OnItemClickListener1 listener){
-            tvName.setText(student.getName() + student.getId());
+            tvName.setText(student.getName());
 //            cbisLate.setText(student.isLate() + "");
 //            cbisPresent.setText(student.isPresent() + "");
 //            cbisPhone.setText(student.isPhone() +  "");
@@ -85,7 +85,7 @@ return 0;
                     }else{
                         student.setPresent(false);
                     }
-                    listener.OnItemClick(student);
+                    listener.OnItemClick(student ,1);
                 }
             });
             cbisPhone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -96,7 +96,7 @@ return 0;
                     } else {
                         student.setPhone(false);
                     }
-                    listener.OnItemClick(student);
+                    listener.OnItemClick(student , 3);
                 }
             });
             cbisLate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -107,13 +107,13 @@ return 0;
                     } else {
                         student.setLate(false);
                     }
-                    listener.OnItemClick(student);
+                    listener.OnItemClick(student , 2);
                 }
             });
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.OnItemClick(student);
+//                    listener.OnItemClick(student);
                 }
             });
         }

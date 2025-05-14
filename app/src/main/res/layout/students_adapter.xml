@@ -30,6 +30,7 @@ android:text="טלפון"
         />
     <TextView
         android:id="@+id/tvName"
+        android:textSize="25dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="25"
