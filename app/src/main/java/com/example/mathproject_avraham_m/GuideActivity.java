@@ -97,6 +97,7 @@ public void start( ) {
          StudentsAdapter studentsAdapter = new StudentsAdapter(students, new StudentsAdapter.OnItemClickListener1() {
              @Override
              public void OnItemClick(Student student) {
+                 int n=0;
 //            Toast.makeText(GuideActivity.this, student.getName() , Toast.LENGTH_LONG).show();
 
              }

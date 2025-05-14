@@ -6,9 +6,10 @@ public class Student {
     private boolean isPhone;
     private boolean isLate;
     private String id;
-    public Student(String id , String name, boolean isLate , boolean isPresent , boolean isPhone){
-       this.id=id;
+    public Student(String name , String id, boolean isLate , boolean isPresent , boolean isPhone){
+
         this.name=name;
+        this.id=id;
         this.isLate=isLate;
         this.isPresent=isPresent;
         this.isPhone=isPhone;

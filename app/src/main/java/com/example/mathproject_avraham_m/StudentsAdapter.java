@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -58,18 +59,57 @@ return 0;
             cbisPresent = itemView.findViewById(R.id.cbisPresent);
             cbisLate = itemView.findViewById(R.id.cbisLate);
             cbisPhone = itemView.findViewById(R.id.cbisPhone);
-cbisPresent.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        int n=10;
-    }
-});
+
         }
+
         public void bind(final Student student, OnItemClickListener1 listener){
-            tvName.setText(student.getName() + "");
-            cbisLate.setText(student.isLate() + "");
-            cbisPresent.setText(student.isPresent() + "");
-            cbisPhone.setText(student.isPhone() +  "");
+            tvName.setText(student.getName() + student.getId());
+//            cbisLate.setText(student.isLate() + "");
+//            cbisPresent.setText(student.isPresent() + "");
+//            cbisPhone.setText(student.isPhone() +  "");
+
+            if (student.isPresent()==true){
+                cbisPresent.setChecked(true);
+            }
+            if (student.isLate()==true){
+                cbisLate.setChecked(true);
+            }
+            if (student.isPhone()==true){
+                cbisPhone.setChecked(true);
+            }
+            cbisPresent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked==true) {
+                        student.setPresent(true);
+                    }else{
+                        student.setPresent(false);
+                    }
+                    listener.OnItemClick(student);
+                }
+            });
+            cbisPhone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked==true) {
+                        student.setPhone(true);
+                    } else {
+                        student.setPhone(false);
+                    }
+                    listener.OnItemClick(student);
+                }
+            });
+            cbisLate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked==true) {
+                        student.setLate(true);
+                    } else {
+                        student.setLate(false);
+                    }
+                    listener.OnItemClick(student);
+                }
+            });
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

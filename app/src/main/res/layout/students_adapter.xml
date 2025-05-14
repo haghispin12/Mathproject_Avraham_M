@@ -10,21 +10,23 @@
         android:id="@+id/cbisPresent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="33"
+        android:layout_weight="20"
+        android:text="נוכח"
 
         />
     <CheckBox
         android:id="@+id/cbisLate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="33"
+        android:layout_weight="20"
+        android:text="איחור"
         />
     <CheckBox
         android:id="@+id/cbisPhone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="33"
-
+        android:layout_weight="20"
+android:text="טלפון"
         />
     <TextView
         android:id="@+id/tvName"
