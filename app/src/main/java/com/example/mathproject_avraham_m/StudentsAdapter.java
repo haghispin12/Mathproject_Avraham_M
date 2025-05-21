@@ -49,6 +49,7 @@ return 0;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
         TextView tvName;
+        CheckBox cbisHome;
         CheckBox cbisPresent;
         CheckBox cbisLate;
         CheckBox cbisPhone;
@@ -59,7 +60,7 @@ return 0;
             cbisPresent = itemView.findViewById(R.id.cbisPresent);
             cbisLate = itemView.findViewById(R.id.cbisLate);
             cbisPhone = itemView.findViewById(R.id.cbisPhone);
-
+            cbisHome = itemView.findViewById(R.id.cbhome);
         }
 
         public void bind(final Student student, OnItemClickListener1 listener){
@@ -76,6 +77,9 @@ return 0;
             }
             if (student.isPhone()==true){
                 cbisPhone.setChecked(true);
+            }
+            if (student.isHome()==true){
+                cbisHome.setChecked(true);
             }
             cbisPresent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -97,6 +101,17 @@ return 0;
                         student.setPhone(false);
                     }
                     listener.OnItemClick(student , 3);
+                }
+            });
+            cbisHome.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked==true){
+                        student.setHome(true);
+                    } else{
+                        student.setHome(false);
+                    }
+                    listener.OnItemClick(student , 4);
                 }
             });
             cbisLate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

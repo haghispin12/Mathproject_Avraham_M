@@ -54,7 +54,7 @@ private FirebaseAuth auth;
         bRegistration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+String user = auth.getCurrentUser().getEmail();
                 //auth.createUserWithEmailAndPassword("","").addOnCompleteListener()
 
                 auth.createUserWithEmailAndPassword( etname.getText().toString() , etpassword.getText().toString()).addOnCompleteListener
@@ -106,8 +106,10 @@ for (DocumentSnapshot documentSnapshot: queryDocumentSnapshots){
         String id = documentSnapshot.getId();
         boolean isPhone = documentSnapshot.getBoolean("isPhone");
 boolean isLeft = documentSnapshot.getBoolean("isLate");
-        boolean isPresent = documentSnapshot.getBoolean("isPresent");
-        Student st1 = new Student(name, id , isLeft, isPresent , isPhone );
+   boolean isHome = documentSnapshot.getBoolean("isHome");
+   boolean isPresent = documentSnapshot.getBoolean("isPresent");
+        boolean isTeacher = documentSnapshot.getBoolean("isTeacher");
+        Student st1 = new Student(name, id , isLeft, isPresent , isPhone , isHome , isTeacher );
         students.add(st1);
 
 

@@ -5,7 +5,13 @@
     android:layout_height="150dp"
     android:orientation="horizontal"
     >
-
+    <CheckBox
+        android:id="@+id/cbhome"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="20"
+        android:text="בבית"
+        />
     <CheckBox
         android:id="@+id/cbisPresent"
         android:layout_width="0dp"
@@ -21,6 +27,7 @@
         android:layout_weight="20"
         android:text="איחור"
         />
+
     <CheckBox
         android:id="@+id/cbisPhone"
         android:layout_width="0dp"

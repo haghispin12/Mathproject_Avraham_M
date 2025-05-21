@@ -64,6 +64,7 @@ protected void initViews(){
     rcShowStudents = findViewById(R.id.rcShowStudents);
 
     }
+
 public void start1(){
     CollectionReference reference = FirebaseFirestore.getInstance().collection("students");
     reference.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -76,8 +77,10 @@ public void start1(){
                     String name = documentSnapshot.getString("name");
                     boolean isPhone = documentSnapshot.getBoolean("isPhone");
                     boolean isLeft = documentSnapshot.getBoolean("isLate");
-                    boolean isPresent = documentSnapshot.getBoolean("isPresent");
-                    Student st1 = new Student(name, id, isLeft, isPresent, isPhone);
+                   boolean isHome = documentSnapshot.getBoolean("isHome");
+                   boolean isPresent = documentSnapshot.getBoolean("isPresent");
+                    boolean isTeacher = documentSnapshot.getBoolean("isTeacher");
+                    Student st1 = new Student(name, id, isLeft, isPresent, isPhone, isHome , isTeacher);
                     students1.add(st1);
                 }
             }
@@ -102,8 +105,10 @@ public void start( ) {
                     String name = documentSnapshot.getString("name");
                     boolean isPhone = documentSnapshot.getBoolean("isPhone");
                     boolean isLeft = documentSnapshot.getBoolean("isLate");
+                   boolean isHome = documentSnapshot.getBoolean("isHome");
                     boolean isPresent = documentSnapshot.getBoolean("isPresent");
-                    Student st1 = new Student(name, id, isLeft, isPresent, isPhone);
+                    boolean isTeacher = documentSnapshot.getBoolean("isTeacher");
+                    Student st1 = new Student(name, id, isLeft, isPresent, isPhone, isHome , isTeacher);
                     students.add(st1);
 //createList(students);
 
@@ -143,6 +148,13 @@ public void start( ) {
                  else if(n==3){
                      FirebaseFirestore.getInstance().collection("students").document(student.getId()).update("isPhone", student.isPhone()).addOnSuccessListener(aVoid -> {
                          Toast.makeText(GuideActivity.this, student.getName() + " marked Phone", Toast.LENGTH_SHORT).show();
+                     }).addOnFailureListener(e -> {
+                         Toast.makeText(GuideActivity.this, "Failed to update: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                     });
+                 }
+                 else if(n==4){
+                     FirebaseFirestore.getInstance().collection("students").document(student.getId()).update("isHome", student.isHome()).addOnSuccessListener(aVoid -> {
+                         Toast.makeText(GuideActivity.this, student.getName() + " marked Home", Toast.LENGTH_SHORT).show();
                      }).addOnFailureListener(e -> {
                          Toast.makeText(GuideActivity.this, "Failed to update: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                      });
