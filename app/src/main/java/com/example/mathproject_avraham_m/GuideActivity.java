@@ -32,6 +32,7 @@ import com.example.mathproject_avraham_m.mathprog.MainActivity;
 import com.example.mathproject_avraham_m.mathprog.RateActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -42,7 +43,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 public class GuideActivity extends AppCompatActivity{
     private RecyclerView rcShowStudents;
     private String id;
-
+    private FirebaseAuth auth;
     private ArrayList<Student> students;
 
     @Override
@@ -51,6 +52,7 @@ public class GuideActivity extends AppCompatActivity{
         EdgeToEdge.enable(this);
         setContentView(R.layout.guide_activity);
         initViews();
+        auth = FirebaseAuth.getInstance();
 start1();
 
 
@@ -79,13 +81,14 @@ public void start1(){
                     boolean isLeft = documentSnapshot.getBoolean("isLate");
                    Long isInHome = documentSnapshot.getLong("isInHome");
                    boolean isPresent = documentSnapshot.getBoolean("isPresent");
-                    boolean isTeacher;
-                if (id.startsWith("t"))
-                         isTeacher = true;
-                else
-                    isTeacher =false;
-
-                    Student st1 = new Student(name, id, isLeft, isPresent, isPhone, isInHome , isTeacher);
+                    boolean isTeacherView;
+if(auth.getCurrentUser().getEmail().startsWith("t")) {
+    isTeacherView = true;
+}else {
+    isTeacherView = false;
+}
+Long count = documentSnapshot.getLong("count");
+                    Student st1 = new Student(name, id, isLeft, isPresent, isPhone, isInHome , isTeacherView , count);
                     students1.add(st1);
                 }
             }
@@ -96,46 +99,48 @@ public void start1(){
 
 
 
-public void start( ) {
-    FirebaseFirestore.getInstance().collection("students").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-
-
-
-        @Override
-        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-            ArrayList<Student> students = new ArrayList<>();
-            for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                if (documentSnapshot.exists()) {
-                    String id = documentSnapshot.getId();
-                    String name = documentSnapshot.getString("name");
-                    boolean isPhone = documentSnapshot.getBoolean("isPhone");
-                    boolean isLeft = documentSnapshot.getBoolean("isLate");
-                   Long isInHome = documentSnapshot.getLong("isInHome");
-                    boolean isPresent = documentSnapshot.getBoolean("isPresent");
-                    boolean isTeacher = documentSnapshot.getBoolean("isTeacher");
-                    Student st1 = new Student(name, id, isLeft, isPresent, isPhone, isInHome , isTeacher);
-                    students.add(st1);
-//createList(students);
-
-                }
-            }
-            createList(students);
-        }
-
-    }).addOnFailureListener(new OnFailureListener() {
-        @Override
-        public void onFailure(@NonNull Exception e) {
-            int n=0;
-        }
-    });
-
-}
+//public void start( ) {
+//    FirebaseFirestore.getInstance().collection("students").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//
+//
+//
+//        @Override
+//        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//            ArrayList<Student> students = new ArrayList<>();
+//            for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+//                if (documentSnapshot.exists()) {
+//                    String id = documentSnapshot.getId();
+//                    String name = documentSnapshot.getString("name");
+//                    boolean isPhone = documentSnapshot.getBoolean("isPhone");
+//                    boolean isLeft = documentSnapshot.getBoolean("isLate");
+//                   Long isInHome = documentSnapshot.getLong("isInHome");
+//                    boolean isPresent = documentSnapshot.getBoolean("isPresent");
+//                    boolean isTeacherView = documentSnapshot.getBoolean("isTeacherView");
+//                    Long count = documentSnapshot.getLong("count");
+//
+//                    Student st1 = new Student(name, id, isLeft, isPresent, isPhone, isInHome , isTeacherView , count);
+//                    students.add(st1);
+////createList(students);
+//
+//                }
+//            }
+//            createList(students);
+//        }
+//
+//    }).addOnFailureListener(new OnFailureListener() {
+//        @Override
+//        public void onFailure(@NonNull Exception e) {
+//            int n=0;
+//        }
+//    });
+//
+//}
 
 
      public void createList(ArrayList<Student>students){
          StudentsAdapter studentsAdapter = new StudentsAdapter(students, new StudentsAdapter.OnItemClickListener1() {
              @Override
-             public void OnItemClick(Student student, int n) {
+             public void OnItemClick(Student student, int n , Long count) {
                  if(n==1) {
                      FirebaseFirestore.getInstance().collection("students").document(student.getId()).update("isPresent", student.isPresent()).addOnSuccessListener(aVoid -> {
                          Toast.makeText(GuideActivity.this, student.getName() + " marked Present", Toast.LENGTH_SHORT).show();
@@ -144,6 +149,8 @@ public void start( ) {
                      });
                  }
                  else if (n==2){
+                     student.addCount(student.getCount());
+                     FirebaseFirestore.getInstance().collection("students").document(student.getId()).update("count" , student.getCount());
                      FirebaseFirestore.getInstance().collection("students").document(student.getId()).update("isLate", student.isLate()).addOnSuccessListener(aVoid -> {
                          Toast.makeText(GuideActivity.this, student.getName() + " marked Late", Toast.LENGTH_SHORT).show();
                      }).addOnFailureListener(e -> {
@@ -153,6 +160,7 @@ public void start( ) {
                  else if(n==3){
                      FirebaseFirestore.getInstance().collection("students").document(student.getId()).update("isPhone", student.isPhone()).addOnSuccessListener(aVoid -> {
                          Toast.makeText(GuideActivity.this, student.getName() + " marked Phone", Toast.LENGTH_SHORT).show();
+
                      }).addOnFailureListener(e -> {
                          Toast.makeText(GuideActivity.this, "Failed to update: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                      });

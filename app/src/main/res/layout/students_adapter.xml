@@ -5,6 +5,13 @@
     android:layout_height="150dp"
     android:orientation="horizontal"
     >
+    <EditText
+       android:id="@+id/etCount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="10"
+        android:enabled="false"
+        />
     <CheckBox
         android:id="@+id/cbhome"
         android:layout_width="0dp"

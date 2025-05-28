@@ -6,9 +6,11 @@ public class Student {
     private boolean isPhone;
     private boolean isLate;
     private Long isInHome;
-    private boolean isTeacher;
+
+    private boolean isTeacherView;
     private String id;
-    public Student(String name , String id, boolean isLate , boolean isPresent , boolean isPhone, Long isInHome ,boolean isTeacher){
+    private Long count;
+    public Student(String name , String id, boolean isLate , boolean isPresent , boolean isPhone, Long isInHome ,boolean isTeacherView , Long count){
 
         this.name=name;
         this.id=id;
@@ -16,7 +18,8 @@ public class Student {
         this.isPresent=isPresent;
         this.isPhone=isPhone;
         this.isInHome= isInHome;
-        this.isTeacher=isTeacher;
+        this.isTeacherView=isTeacherView();
+        this.count=count;
     }
 
     public boolean isLate() {
@@ -67,11 +70,23 @@ public class Student {
         this.isInHome = isInHome;
     }
 
-    public boolean isTeacher() {
-        return isTeacher;
+    public boolean isTeacherView() {
+        return isTeacherView;
     }
 
-    public void setTeacher(boolean teacher) {
-        isTeacher = teacher;
+    public void setTeacherView(boolean teacher) {
+        isTeacherView = teacher;
+    }
+
+    public Long getCount() {
+        return count;
+    }
+
+    public void setCount(Long count) {
+        this.count = count;
+    }
+    public Long addCount(Long num){
+        num= num +1;
+        return num;
     }
 }

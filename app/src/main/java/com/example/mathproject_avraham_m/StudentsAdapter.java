@@ -5,10 +5,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -17,7 +21,7 @@ public class StudentsAdapter extends RecyclerView.Adapter<StudentsAdapter.MyView
 
     private OnItemClickListener1 listener;
     public interface OnItemClickListener1 {
-        void OnItemClick(Student student,int n);
+        void OnItemClick(Student student,int n  , Long count);
     }
 
     public StudentsAdapter(ArrayList<Student>students, OnItemClickListener1 listener){
@@ -53,6 +57,8 @@ return 0;
         CheckBox cbisPresent;
         CheckBox cbisLate;
         CheckBox cbisPhone;
+        EditText etCount;
+        private FirebaseAuth auth;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,6 +67,7 @@ return 0;
             cbisLate = itemView.findViewById(R.id.cbisLate);
             cbisPhone = itemView.findViewById(R.id.cbisPhone);
             cbisHome = itemView.findViewById(R.id.cbhome);
+            etCount = itemView.findViewById(R.id.etCount);
         }
 
         public void bind(final Student student, OnItemClickListener1 listener){
@@ -81,16 +88,17 @@ return 0;
             if (student.isHome()==0){
                 cbisHome.setChecked(true);
             }
-            if (student.isTeacher()==true){
-                cbisHome.setEnabled(false);
-                cbisPresent.setEnabled(true);
-                cbisPhone.setEnabled(false);
-                cbisLate.setEnabled(true);
+            if (student.isTeacherView()==true){
+                cbisHome.setEnabled(true);
+                cbisPresent.setEnabled(false);
+                cbisPhone.setEnabled(true);
+                cbisLate.setEnabled(false);
 
             }
             else{
-                cbisHome.setEnabled(true);
+                cbisHome.setEnabled(false);
             }
+
             cbisPresent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -99,7 +107,7 @@ return 0;
                     }else{
                         student.setPresent(false);
                     }
-                    listener.OnItemClick(student ,1);
+                    listener.OnItemClick(student ,1 , student.getCount());
                 }
             });
             cbisPhone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -110,7 +118,7 @@ return 0;
                     } else {
                         student.setPhone(false);
                     }
-                    listener.OnItemClick(student , 3);
+                    listener.OnItemClick(student , 3 , student.getCount());
                 }
             });
             cbisHome.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -121,7 +129,7 @@ return 0;
                     } else{
                         student.setIsInHome(1L);
                     }
-                    listener.OnItemClick(student , 4);
+                    listener.OnItemClick(student , 4 , student.getCount());
                 }
             });
             cbisLate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -129,10 +137,13 @@ return 0;
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked==true) {
                         student.setLate(true);
+                        student.addCount(student.getCount());
+
                     } else {
                         student.setLate(false);
                     }
-                    listener.OnItemClick(student , 2);
+                    listener.OnItemClick(student , 2 , student.getCount());
+
                 }
             });
             itemView.setOnClickListener(new View.OnClickListener() {
