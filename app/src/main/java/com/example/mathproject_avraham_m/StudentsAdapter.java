@@ -78,8 +78,18 @@ return 0;
             if (student.isPhone()==true){
                 cbisPhone.setChecked(true);
             }
-            if (student.isHome()==true){
+            if (student.isHome()==0){
                 cbisHome.setChecked(true);
+            }
+            if (student.isTeacher()==true){
+                cbisHome.setEnabled(false);
+                cbisPresent.setEnabled(true);
+                cbisPhone.setEnabled(false);
+                cbisLate.setEnabled(true);
+
+            }
+            else{
+                cbisHome.setEnabled(true);
             }
             cbisPresent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -107,9 +117,9 @@ return 0;
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked==true){
-                        student.setHome(true);
+                        student.setIsInHome(0L);
                     } else{
-                        student.setHome(false);
+                        student.setIsInHome(1L);
                     }
                     listener.OnItemClick(student , 4);
                 }

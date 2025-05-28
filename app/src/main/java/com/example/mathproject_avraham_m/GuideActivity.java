@@ -77,10 +77,15 @@ public void start1(){
                     String name = documentSnapshot.getString("name");
                     boolean isPhone = documentSnapshot.getBoolean("isPhone");
                     boolean isLeft = documentSnapshot.getBoolean("isLate");
-                   boolean isHome = documentSnapshot.getBoolean("isHome");
+                   Long isInHome = documentSnapshot.getLong("isInHome");
                    boolean isPresent = documentSnapshot.getBoolean("isPresent");
-                    boolean isTeacher = documentSnapshot.getBoolean("isTeacher");
-                    Student st1 = new Student(name, id, isLeft, isPresent, isPhone, isHome , isTeacher);
+                    boolean isTeacher;
+                if (id.startsWith("t"))
+                         isTeacher = true;
+                else
+                    isTeacher =false;
+
+                    Student st1 = new Student(name, id, isLeft, isPresent, isPhone, isInHome , isTeacher);
                     students1.add(st1);
                 }
             }
@@ -105,10 +110,10 @@ public void start( ) {
                     String name = documentSnapshot.getString("name");
                     boolean isPhone = documentSnapshot.getBoolean("isPhone");
                     boolean isLeft = documentSnapshot.getBoolean("isLate");
-                   boolean isHome = documentSnapshot.getBoolean("isHome");
+                   Long isInHome = documentSnapshot.getLong("isInHome");
                     boolean isPresent = documentSnapshot.getBoolean("isPresent");
                     boolean isTeacher = documentSnapshot.getBoolean("isTeacher");
-                    Student st1 = new Student(name, id, isLeft, isPresent, isPhone, isHome , isTeacher);
+                    Student st1 = new Student(name, id, isLeft, isPresent, isPhone, isInHome , isTeacher);
                     students.add(st1);
 //createList(students);
 

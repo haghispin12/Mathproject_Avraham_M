@@ -5,17 +5,17 @@ public class Student {
     private boolean isPresent;
     private boolean isPhone;
     private boolean isLate;
-    private boolean isHome;
+    private Long isInHome;
     private boolean isTeacher;
     private String id;
-    public Student(String name , String id, boolean isLate , boolean isPresent , boolean isPhone, boolean isHome ,boolean isTeacher){
+    public Student(String name , String id, boolean isLate , boolean isPresent , boolean isPhone, Long isInHome ,boolean isTeacher){
 
         this.name=name;
         this.id=id;
         this.isLate=isLate;
         this.isPresent=isPresent;
         this.isPhone=isPhone;
-        this.isHome= isHome;
+        this.isInHome= isInHome;
         this.isTeacher=isTeacher;
     }
 
@@ -59,12 +59,12 @@ public class Student {
         isPhone = phone;
     }
 
-    public boolean isHome() {
-        return isHome;
+    public Long isHome() {
+        return isInHome;
     }
 
-    public void setHome(boolean home) {
-        isHome = home;
+    public void setIsInHome(Long isInHome) {
+        this.isInHome = isInHome;
     }
 
     public boolean isTeacher() {
