@@ -45,6 +45,7 @@ public class GuideActivity extends AppCompatActivity{
     private String id;
     private FirebaseAuth auth;
     private ArrayList<Student> students;
+    Button bclear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +65,16 @@ start1();
     }
 protected void initViews(){
     rcShowStudents = findViewById(R.id.rcShowStudents);
-
+bclear = findViewById(R.id.bclear);
+//bclear.setOnClickListener(new View.OnClickListener() {
+//    @Override
+//    public void onClick(View v) {
+//
+//        for (int i=0;i<students.size();i++){
+//            clear(students.get(i));
+//        }
+//    }
+//});
     }
 
 public void start1(){
@@ -97,7 +107,76 @@ Long count = documentSnapshot.getLong("count");
     });
 }
 
+public void clear(Student student){
+    StudentsAdapter studentsAdapter = new StudentsAdapter(students, new StudentsAdapter.OnItemClickListener1() {
+        @Override
+        public void OnItemClick(Student student, int n, Long count) {
+       student.setLate(false);
+            student.setPhone(false);
+            student.setIsInHome(1L);
+            student.setPresent(false);
+            FirebaseFirestore.getInstance().collection("students").document(student.getId()).update("isPresent" , student.isPresent());
+            FirebaseFirestore.getInstance().collection("students").document(student.getId()).update("isLate" , student.isLate());
+            FirebaseFirestore.getInstance().collection("students").document(student.getId()).update("isPhone" , student.isPhone());
+            FirebaseFirestore.getInstance().collection("students").document(student.getId()).update("isInHome" , student.getIsInHome());
 
+
+        }
+    });
+    rcShowStudents.setLayoutManager(new LinearLayoutManager(this));
+    rcShowStudents.setAdapter(studentsAdapter);
+    rcShowStudents.setHasFixedSize(true);
+}
+
+
+     public void createList(ArrayList<Student>students){
+         StudentsAdapter studentsAdapter = new StudentsAdapter(students, new StudentsAdapter.OnItemClickListener1() {
+             @Override
+             public void OnItemClick(Student student, int n , Long count) {
+                 if(n==1) {
+                     FirebaseFirestore.getInstance().collection("students").document(student.getId()).update("isPresent", student.isPresent()).addOnSuccessListener(aVoid -> {
+                         Toast.makeText(GuideActivity.this, student.getName() + " marked Present", Toast.LENGTH_SHORT).show();
+                     }).addOnFailureListener(e -> {
+                         Toast.makeText(GuideActivity.this, "Failed to update: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                     });
+                 }
+                 else if (n==2) {
+                     if (student.isLate() == true){
+                         FirebaseFirestore.getInstance().collection("students").document(student.getId()).update("count", count);
+                 }
+                     FirebaseFirestore.getInstance().collection("students").document(student.getId()).update("isLate", student.isLate()).addOnSuccessListener(aVoid -> {
+                         Toast.makeText(GuideActivity.this, student.getName() + " marked Late", Toast.LENGTH_SHORT).show();
+                     }).addOnFailureListener(e -> {
+                         Toast.makeText(GuideActivity.this, "Failed to update: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                     });
+
+                 }
+                 else if(n==3){
+                     FirebaseFirestore.getInstance().collection("students").document(student.getId()).update("isPhone", student.isPhone()).addOnSuccessListener(aVoid -> {
+                         Toast.makeText(GuideActivity.this, student.getName() + " marked Phone", Toast.LENGTH_SHORT).show();
+
+                     }).addOnFailureListener(e -> {
+                         Toast.makeText(GuideActivity.this, "Failed to update: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                     });
+                 }
+                 else if(n==4){
+                     FirebaseFirestore.getInstance().collection("students").document(student.getId()).update("isInHome", student.getIsInHome()).addOnSuccessListener(aVoid -> {
+                         Toast.makeText(GuideActivity.this, student.getName() + " marked Home", Toast.LENGTH_SHORT).show();
+                     }).addOnFailureListener(e -> {
+                         Toast.makeText(GuideActivity.this, "Failed to update: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                     });
+                 }
+//            Toast.makeText(GuideActivity.this, student.getName() , Toast.LENGTH_LONG).show();
+
+             }
+         });
+    rcShowStudents.setLayoutManager(new LinearLayoutManager(this));
+    rcShowStudents.setAdapter(studentsAdapter);
+    rcShowStudents.setHasFixedSize(true);
+}
+
+
+    }
 
 //public void start( ) {
 //    FirebaseFirestore.getInstance().collection("students").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -135,52 +214,4 @@ Long count = documentSnapshot.getLong("count");
 //    });
 //
 //}
-
-
-     public void createList(ArrayList<Student>students){
-         StudentsAdapter studentsAdapter = new StudentsAdapter(students, new StudentsAdapter.OnItemClickListener1() {
-             @Override
-             public void OnItemClick(Student student, int n , Long count) {
-                 if(n==1) {
-                     FirebaseFirestore.getInstance().collection("students").document(student.getId()).update("isPresent", student.isPresent()).addOnSuccessListener(aVoid -> {
-                         Toast.makeText(GuideActivity.this, student.getName() + " marked Present", Toast.LENGTH_SHORT).show();
-                     }).addOnFailureListener(e -> {
-                         Toast.makeText(GuideActivity.this, "Failed to update: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                     });
-                 }
-                 else if (n==2){
-                     student.addCount(student.getCount());
-                     FirebaseFirestore.getInstance().collection("students").document(student.getId()).update("count" , student.getCount());
-                     FirebaseFirestore.getInstance().collection("students").document(student.getId()).update("isLate", student.isLate()).addOnSuccessListener(aVoid -> {
-                         Toast.makeText(GuideActivity.this, student.getName() + " marked Late", Toast.LENGTH_SHORT).show();
-                     }).addOnFailureListener(e -> {
-                         Toast.makeText(GuideActivity.this, "Failed to update: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                     });
-                 }
-                 else if(n==3){
-                     FirebaseFirestore.getInstance().collection("students").document(student.getId()).update("isPhone", student.isPhone()).addOnSuccessListener(aVoid -> {
-                         Toast.makeText(GuideActivity.this, student.getName() + " marked Phone", Toast.LENGTH_SHORT).show();
-
-                     }).addOnFailureListener(e -> {
-                         Toast.makeText(GuideActivity.this, "Failed to update: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                     });
-                 }
-                 else if(n==4){
-                     FirebaseFirestore.getInstance().collection("students").document(student.getId()).update("isHome", student.isHome()).addOnSuccessListener(aVoid -> {
-                         Toast.makeText(GuideActivity.this, student.getName() + " marked Home", Toast.LENGTH_SHORT).show();
-                     }).addOnFailureListener(e -> {
-                         Toast.makeText(GuideActivity.this, "Failed to update: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                     });
-                 }
-//            Toast.makeText(GuideActivity.this, student.getName() , Toast.LENGTH_LONG).show();
-
-             }
-         });
-    rcShowStudents.setLayoutManager(new LinearLayoutManager(this));
-    rcShowStudents.setAdapter(studentsAdapter);
-    rcShowStudents.setHasFixedSize(true);
-}
-
-
-    }
 

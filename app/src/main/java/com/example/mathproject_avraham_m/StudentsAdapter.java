@@ -3,6 +3,7 @@ package com.example.mathproject_avraham_m;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -58,6 +59,7 @@ return 0;
         CheckBox cbisLate;
         CheckBox cbisPhone;
         EditText etCount;
+
         private FirebaseAuth auth;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -85,7 +87,7 @@ return 0;
             if (student.isPhone()==true){
                 cbisPhone.setChecked(true);
             }
-            if (student.isHome()==0){
+            if (student.getIsInHome()==0){
                 cbisHome.setChecked(true);
             }
             if (student.isTeacherView()==true){
@@ -137,7 +139,7 @@ return 0;
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked==true) {
                         student.setLate(true);
-                        student.addCount(student.getCount());
+                        student.incNum();
 
                     } else {
                         student.setLate(false);

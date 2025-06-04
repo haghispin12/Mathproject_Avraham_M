@@ -18,7 +18,7 @@ public class Student {
         this.isPresent=isPresent;
         this.isPhone=isPhone;
         this.isInHome= isInHome;
-        this.isTeacherView=isTeacherView();
+        this.isTeacherView=isTeacherView;
         this.count=count;
     }
 
@@ -62,7 +62,7 @@ public class Student {
         isPhone = phone;
     }
 
-    public Long isHome() {
+    public Long getIsInHome() {
         return isInHome;
     }
 
@@ -85,8 +85,8 @@ public class Student {
     public void setCount(Long count) {
         this.count = count;
     }
-    public Long addCount(Long num){
-        num= num +1;
-        return num;
+    public void incNum(){
+        count++;
+
     }
 }

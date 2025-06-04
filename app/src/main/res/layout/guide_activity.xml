@@ -7,11 +7,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".GuideActivity"
+    android:orientation="vertical"
     >
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="clear"
+        android:id="@+id/bclear"
+        />
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="100dp"
         android:id="@+id/rcShowStudents"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:listitem="@layout/students_adapter"/>
+
 </LinearLayout>
