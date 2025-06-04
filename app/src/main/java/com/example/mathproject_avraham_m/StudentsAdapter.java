@@ -54,11 +54,12 @@ return 0;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
         TextView tvName;
+
         CheckBox cbisHome;
         CheckBox cbisPresent;
         CheckBox cbisLate;
         CheckBox cbisPhone;
-        EditText etCount;
+        TextView tvCount;
 
         private FirebaseAuth auth;
 
@@ -69,11 +70,13 @@ return 0;
             cbisLate = itemView.findViewById(R.id.cbisLate);
             cbisPhone = itemView.findViewById(R.id.cbisPhone);
             cbisHome = itemView.findViewById(R.id.cbhome);
-            etCount = itemView.findViewById(R.id.etCount);
+            tvCount = itemView.findViewById(R.id.tvCount);
+
         }
 
         public void bind(final Student student, OnItemClickListener1 listener){
             tvName.setText(student.getName());
+            tvCount.setText(student.getCount() + "");
 //            cbisLate.setText(student.isLate() + "");
 //            cbisPresent.setText(student.isPresent() + "");
 //            cbisPhone.setText(student.isPhone() +  "");

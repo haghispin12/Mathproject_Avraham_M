@@ -45,6 +45,7 @@ public class GuideActivity extends AppCompatActivity{
     private String id;
     private FirebaseAuth auth;
     private ArrayList<Student> students;
+
     Button bclear;
 
     @Override
@@ -66,6 +67,7 @@ start1();
 protected void initViews(){
     rcShowStudents = findViewById(R.id.rcShowStudents);
 bclear = findViewById(R.id.bclear);
+
 //bclear.setOnClickListener(new View.OnClickListener() {
 //    @Override
 //    public void onClick(View v) {
