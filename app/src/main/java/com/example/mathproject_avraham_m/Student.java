@@ -6,12 +6,13 @@ public class Student {
     private boolean isPhone;
     private boolean isLate;
 
-    private Long home;
+    private boolean home;
+    private int grade;
 
     private boolean viewType;
     private String id;
     private Long count;
-    public Student(String name , String id, boolean isLate , boolean isPresent , boolean isPhone , Long home ,boolean viewType , Long count){
+    public Student(String name , String id, boolean isLate , boolean isPresent , boolean isPhone , boolean home , int grade  ,boolean viewType , Long count){
 
         this.name=name;
         this.id=id;
@@ -19,6 +20,7 @@ public class Student {
         this.isPresent=isPresent;
         this.isPhone=isPhone;
         this.home=home;
+        this.grade=grade;
         this.viewType=viewType;
         this.count=count;
     }
@@ -63,11 +65,19 @@ public class Student {
         isPhone = phone;
     }
 
-    public Long gethome() {
+    public boolean gethome() {
         return home;
     }
 
-    public void sethome(Long home) {
+    public int getGrade() {
+        return grade;
+    }
+
+    public void setGrade(int grade) {
+        this.grade = grade;
+    }
+
+    public void sethome(boolean home) {
         this.home = home;
     }
 

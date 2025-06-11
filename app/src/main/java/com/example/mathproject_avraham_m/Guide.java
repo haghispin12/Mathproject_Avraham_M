@@ -1,5 +1,9 @@
 package com.example.mathproject_avraham_m;
 
+import android.widget.Toast;
+
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 
 public class Guide {
@@ -8,11 +12,11 @@ public class Guide {
 
     private ArrayList<Student> students;
 
-    public Guide(String name ,  boolean isFinish,  ArrayList<Student>students ){
+    public Guide(String name ,  boolean isFinish ){
 
         this.name=name;
         this.isFinish=isFinish;
-        this.students=students;
+        this.students=new ArrayList<>();
 
     }
 
@@ -42,5 +46,18 @@ public class Guide {
         this.students = students;
     }
 
-
+public void updateTheFirestore(){
+        StudentsAdapter studentsAdapter = new StudentsAdapter(this.students, new StudentsAdapter.OnItemClickListener1() {
+            @Override
+            public void OnItemClick(Student student, int n, Long count) {
+                if(n==1) {
+                    FirebaseFirestore.getInstance().collection("students").document(student.getId()).update("isPresent", student.isPresent()).addOnSuccessListener(aVoid -> {
+                        Toast.makeText()
+                    }).addOnFailureListener(e -> {
+                        Toast.makeText(GuideActivity.this, "Failed to update: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+                }
+            }
+        });
+}
 }
