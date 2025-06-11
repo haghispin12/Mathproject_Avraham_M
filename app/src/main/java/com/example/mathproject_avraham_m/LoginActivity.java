@@ -26,7 +26,7 @@ import java.util.ArrayList;
 public class LoginActivity extends AppCompatActivity {
 private EditText etname;
 private EditText etpassword;
-private String id;
+
 private Button bRegistration;
 private Button bsubmit;
 private FirebaseAuth auth;
@@ -54,24 +54,11 @@ private FirebaseAuth auth;
         bRegistration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-String email = auth.getCurrentUser().getEmail();
+                String email = auth.getCurrentUser().getEmail();
 
                 //auth.createUserWithEmailAndPassword("","").addOnCompleteListener()
-
-                auth.createUserWithEmailAndPassword( etname.getText().toString() , etpassword.getText().toString()).addOnCompleteListener
-                        (LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(LoginActivity.this, "Authentication success", Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Authentication failed", Toast.LENGTH_LONG).show();
-
-                        }
-
-                    }
-
-                });
+                //הרשמה
+                registration();
             }
         });
         bsubmit.setOnClickListener(new View.OnClickListener() {
@@ -79,47 +66,74 @@ String email = auth.getCurrentUser().getEmail();
             public void onClick(View v) {
 
 
-                auth.signInWithEmailAndPassword(etname.getText().toString() , etpassword.getText().toString()).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Intent intent = new Intent(LoginActivity.this , GuideActivity.class);
-                            intent.putExtra("userkey" , etname.getText().toString());
-                            startActivity(intent);
-//                            Toast.makeText(LoginActivity.this, "Authentication success", Toast.LENGTH_SHORT).show();
-                        }else {
-                            Toast.makeText(LoginActivity.this, "Authentication failed", Toast.LENGTH_SHORT).show();
-                        }
-                            
-                    }
-                });
+               sign();
             }
         });
     }
-public static void push(){
-    ArrayList<Student>students =new ArrayList<>();
-    FirebaseFirestore.getInstance().collection("studentes").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-        @Override
-        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-for (DocumentSnapshot documentSnapshot: queryDocumentSnapshots){
-    if (documentSnapshot.exists()){
-        String name = documentSnapshot.getString("name");
-        String id = documentSnapshot.getId();
-        boolean isPhone = documentSnapshot.getBoolean("isPhone");
-boolean isLeft = documentSnapshot.getBoolean("isLate");
-   Long isInHome = documentSnapshot.getLong("isInHome");
-   boolean isPresent = documentSnapshot.getBoolean("isPresent");
-        boolean isTeacherView = documentSnapshot.getBoolean("isTeacherView");
-        Long count =documentSnapshot.getLong("count");
-        Student st1 = new Student(name, id , isLeft, isPresent , isPhone , isInHome , isTeacherView , count );
-        students.add(st1);
 
+    /**
+     * registration user
+     */
+    private void registration() {
+        auth.createUserWithEmailAndPassword( etname.getText().toString() , etpassword.getText().toString()).addOnCompleteListener
+                (LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(LoginActivity.this, "registered Successfully", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Error Registration", Toast.LENGTH_LONG).show();
 
+                        }
 
+                    }
+
+                });
     }
-}
-        }
-    });
+    /**
+     * sign in user
+     */
+    private void sign(){
+        auth.signInWithEmailAndPassword(etname.getText().toString() , etpassword.getText().toString()).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    Intent intent = new Intent(LoginActivity.this , GuideActivity.class);
+                    intent.putExtra("userkey" , etname.getText().toString());
+                    startActivity(intent);
+
+//                            Toast.makeText(LoginActivity.this, "Authentication success", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(LoginActivity.this, "Authentication failed", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+    }
+//public static void push(){
+//    ArrayList<Student>students =new ArrayList<>();
+//    FirebaseFirestore.getInstance().collection("studentes").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//        @Override
+//        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//for (DocumentSnapshot documentSnapshot: queryDocumentSnapshots){
+//    if (documentSnapshot.exists()){
+//        String name = documentSnapshot.getString("name");
+//        String id = documentSnapshot.getId();
+//        boolean isPhone = documentSnapshot.getBoolean("isPhone");
+//boolean isLeft = documentSnapshot.getBoolean("isLate");
+//   Long isInHome = documentSnapshot.getLong("isInHome");
+//   boolean isPresent = documentSnapshot.getBoolean("isPresent");
+//        boolean viewType = documentSnapshot.getBoolean("isTeacherView");
+//        Long count =documentSnapshot.getLong("count");
+//        Student st1 = new Student(name, id , isLeft, isPresent , isPhone , isInHome , viewType , count );
+//        students.add(st1);
+//
+//
+//
+//    }
+//}
+//        }
+//    });
 }
 //public static void add(){
 //    Student student = new Student("shlomo" , true, true);
@@ -138,4 +152,3 @@ boolean isLeft = documentSnapshot.getBoolean("isLate");
 //}
 //
 
-}

@@ -18,6 +18,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -42,11 +44,14 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 public class GuideActivity extends AppCompatActivity{
     private RecyclerView rcShowStudents;
-    private String id;
+
     private FirebaseAuth auth;
+    private Teacher t1;
+    private Guide g1;
     private ArrayList<Student> students;
 
-    Button bclear;
+    private Button bclear;
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +60,15 @@ public class GuideActivity extends AppCompatActivity{
         setContentView(R.layout.guide_activity);
         initViews();
         auth = FirebaseAuth.getInstance();
-start1();
 
+        String email = auth.getCurrentUser().getEmail();
+if(email.startsWith("t")){
+     t1 = new Teacher(email);
+}else{
+     g1 = new Guide(email , false , students);
+}
+if (g1==null)
+    start();
 
         //ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
         //  Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -64,22 +76,29 @@ start1();
         //return insets;
         // });
     }
+
 protected void initViews(){
     rcShowStudents = findViewById(R.id.rcShowStudents);
 bclear = findViewById(R.id.bclear);
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+bclear.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
 
-//bclear.setOnClickListener(new View.OnClickListener() {
-//    @Override
-//    public void onClick(View v) {
-//
+        builder.setTitle("בטוח? הנתונים לא יישמרו")
+                .setPositiveButton("כן", (dialog, which) -> {
+                    // פעולה על אישור
+                })
+                .setNegativeButton("לא", (dialog, which) -> dialog.dismiss())
+                .show();
 //        for (int i=0;i<students.size();i++){
 //            clear(students.get(i));
 //        }
-//    }
-//});
+    }
+});
     }
 
-public void start1(){
+public void start(){
     CollectionReference reference = FirebaseFirestore.getInstance().collection("students");
     reference.addSnapshotListener(new EventListener<QuerySnapshot>() {
         @Override
@@ -91,16 +110,17 @@ public void start1(){
                     String name = documentSnapshot.getString("name");
                     boolean isPhone = documentSnapshot.getBoolean("isPhone");
                     boolean isLeft = documentSnapshot.getBoolean("isLate");
-                   Long isInHome = documentSnapshot.getLong("isInHome");
-                   boolean isPresent = documentSnapshot.getBoolean("isPresent");
-                    boolean isTeacherView;
+int grade = documentSnapshot.getLong("grade").intValue();
+boolean isHome = documentSnapshot.getBoolean("isHome");
+boolean isPresent = documentSnapshot.getBoolean("isPresent");
+                    boolean viewType;
 if(auth.getCurrentUser().getEmail().startsWith("t")) {
-    isTeacherView = true;
+    viewType = true;
 }else {
-    isTeacherView = false;
+    viewType = false;
 }
 Long count = documentSnapshot.getLong("count");
-                    Student st1 = new Student(name, id, isLeft, isPresent, isPhone, isInHome , isTeacherView , count);
+                    Student st1 = new Student(name, id, isLeft, isPresent, isPhone, 1L , viewType , count);
                     students1.add(st1);
                 }
             }
@@ -113,22 +133,24 @@ public void clear(Student student){
     StudentsAdapter studentsAdapter = new StudentsAdapter(students, new StudentsAdapter.OnItemClickListener1() {
         @Override
         public void OnItemClick(Student student, int n, Long count) {
-       student.setLate(false);
-            student.setPhone(false);
-            student.setIsInHome(1L);
-            student.setPresent(false);
-            FirebaseFirestore.getInstance().collection("students").document(student.getId()).update("isPresent" , student.isPresent());
-            FirebaseFirestore.getInstance().collection("students").document(student.getId()).update("isLate" , student.isLate());
-            FirebaseFirestore.getInstance().collection("students").document(student.getId()).update("isPhone" , student.isPhone());
-            FirebaseFirestore.getInstance().collection("students").document(student.getId()).update("isInHome" , student.getIsInHome());
+            for(int i =0; i<students.size();i++) {
+                students.get(i).setLate(false);
+                students.get(i).setPhone(false);
+                students.get(i).sethome(1L);
+                students.get(i).setPresent(false);
+                FirebaseFirestore.getInstance().collection("students").document(students.get(i).getId()).update("isPresent", student.isPresent());
+                FirebaseFirestore.getInstance().collection("students").document(  students.get(i).getId()).update("isLate", student.isLate());
+                FirebaseFirestore.getInstance().collection("students").document ( students.get(i).getId()).update("isPhone", student.isPhone());
+                FirebaseFirestore.getInstance().collection("students").document(  students.get(i).getId()).update("isInHome", student.gethome());
 
-
+            }
         }
     });
     rcShowStudents.setLayoutManager(new LinearLayoutManager(this));
     rcShowStudents.setAdapter(studentsAdapter);
     rcShowStudents.setHasFixedSize(true);
 }
+
 
 
      public void createList(ArrayList<Student>students){
@@ -162,13 +184,13 @@ public void clear(Student student){
                      });
                  }
                  else if(n==4){
-                     FirebaseFirestore.getInstance().collection("students").document(student.getId()).update("isInHome", student.getIsInHome()).addOnSuccessListener(aVoid -> {
+                     FirebaseFirestore.getInstance().collection("students").document(student.getId()).update("isInHome", student.gethome()).addOnSuccessListener(aVoid -> {
                          Toast.makeText(GuideActivity.this, student.getName() + " marked Home", Toast.LENGTH_SHORT).show();
                      }).addOnFailureListener(e -> {
                          Toast.makeText(GuideActivity.this, "Failed to update: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                      });
                  }
-//            Toast.makeText(GuideActivity.this, student.getName() , Toast.LENGTH_LONG).show();
+//            Toast.makeText(GuideActivity.this, student.getName() , Toast.LENGTH_Long).show();
 
              }
          });
@@ -196,10 +218,10 @@ public void clear(Student student){
 //                    boolean isLeft = documentSnapshot.getBoolean("isLate");
 //                   Long isInHome = documentSnapshot.getLong("isInHome");
 //                    boolean isPresent = documentSnapshot.getBoolean("isPresent");
-//                    boolean isTeacherView = documentSnapshot.getBoolean("isTeacherView");
+//                    boolean viewType = documentSnapshot.getBoolean("viewType");
 //                    Long count = documentSnapshot.getLong("count");
 //
-//                    Student st1 = new Student(name, id, isLeft, isPresent, isPhone, isInHome , isTeacherView , count);
+//                    Student st1 = new Student(name, id, isLeft, isPresent, isPhone, isInHome , viewType , count);
 //                    students.add(st1);
 ////createList(students);
 //

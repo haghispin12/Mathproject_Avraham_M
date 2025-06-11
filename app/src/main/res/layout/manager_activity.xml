@@ -6,20 +6,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GuideActivity"
+    tools:context=".ManagerActivity"
     android:orientation="vertical"
     >
-
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcShowStudents"
+        android:id="@+id/rcshowGuiders"
         android:layout_width="match_parent"
-        android:layout_height="640sp"
-        tools:listitem="@layout/students_adapter"/>
+        android:layout_height="640dp"
+        tools:listitem="@layout/guiders_adapter"/>
     <Button
-        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="clear"
-        android:id="@+id/bclear"
+        android:text="finish"
+        android:layout_height="50sp"
+
         />
 </LinearLayout>
